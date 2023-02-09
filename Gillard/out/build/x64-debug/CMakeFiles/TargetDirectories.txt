@@ -1,0 +1,3 @@
+C:/Users/godsw/Documents/SchoolStuffs/Level4/C++/Lab2/Gillard/out/build/x64-debug/CMakeFiles/Gillard.dir
+C:/Users/godsw/Documents/SchoolStuffs/Level4/C++/Lab2/Gillard/out/build/x64-debug/CMakeFiles/edit_cache.dir
+C:/Users/godsw/Documents/SchoolStuffs/Level4/C++/Lab2/Gillard/out/build/x64-debug/CMakeFiles/rebuild_cache.dir

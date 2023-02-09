@@ -1,0 +1,19 @@
+# ninja log v5
+11	1136	6975898980286109	CMakeFiles/Gillard.dir/Gillard.cpp.obj	f34a6065fe973a48
+10	835	6975900325982275	CMakeFiles/GillardCompiler.dir/Compilers.c.obj	d5d4a473e4349be
+1140	1622	6975898984881739	Gillard.exe	4f054e196bfeebca
+18	34	0	clean	8c45b54705a541e8
+24	836	6975900325982275	CMakeFiles/GillardCompiler.dir/MainReader.c.obj	259c70a41f20d9d0
+17	838	6975900325972274	CMakeFiles/GillardCompiler.dir/Reader.c.obj	c4fbc189cb58c4ab
+838	1009	6975900327345772	GillardCompiler.exe	322ee9891e0a83e0
+34	865	6975901706722678	CMakeFiles/Gillard.dir/Reader.c.obj	581a4a32a4a61ad6
+20	867	6975901706722678	CMakeFiles/Gillard.dir/Compilers.c.obj	868350f29df810a0
+45	873	6975901706802696	CMakeFiles/Gillard.dir/MainReader.c.obj	99a9fae282fc882a
+873	1063	6975901708317884	Gillard.exe	c55686f183b6a0ea
+5	28	0	clean	8c45b54705a541e8
+19	174	6975904760705520	CMakeFiles/Gillard.dir/Compilers.c.obj	868350f29df810a0
+29	176	6975904760715519	CMakeFiles/Gillard.dir/Reader.c.obj	581a4a32a4a61ad6
+38	197	6975904760955567	CMakeFiles/Gillard.dir/MainReader.c.obj	99a9fae282fc882a
+197	412	6975904762514908	Gillard.exe	c55686f183b6a0ea
+6	132	6975908115615356	CMakeFiles/Gillard.dir/Reader.c.obj	581a4a32a4a61ad6
+133	350	6975908117186191	Gillard.exe	c55686f183b6a0ea
