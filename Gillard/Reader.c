@@ -107,6 +107,9 @@ ReaderPointer readerCreate(gillard_intg size, gillard_intg increment, gillard_in
 	
 	/* TO_DO: Defensive programming */
 	/* TO_DO: Initialize the histogram */
+	for (int i = 0; i < NCHAR; i++)
+		readerPointer->histogram[i] = 0;
+
 	readerPointer->size = size;
 	readerPointer->increment = increment;
 	readerPointer->mode = mode;
@@ -141,6 +144,7 @@ ReaderPointer readerAddChar(ReaderPointer const readerPointer, gillard_char ch) 
 	/* TO_DO: Test the inclusion of chars */
 	if (readerPointer->position.wrte * (gillard_intg)sizeof(gillard_char) < readerPointer->size) {
 		/* TO_DO: This buffer is NOT full */
+		readerPointer->content[readerPointer->position.wrte];
 	} else {
 		/* TO_DO: Reset Full flag */
 		switch (readerPointer->mode) {
@@ -151,22 +155,37 @@ ReaderPointer readerAddChar(ReaderPointer const readerPointer, gillard_char ch) 
 			/* TO_DO: Defensive programming */
 			if(!readerPointer->size) readerPointer->size = READER_DEFAULT_SIZE; 
 			newSize = readerPointer->size + readerPointer->increment;
-			if (newSize < 0)
-				return NULL;
+			
 			break;
 		case MODE_MULTI:
 			/* TO_DO: Adjust new size */
 			/* TO_DO: Defensive programming */
 			if(!readerPointer->size) readerPointer->size = READER_DEFAULT_SIZE; 
 			newSize = readerPointer->size * readerPointer->increment;
+
 			break;
 		default:
+			return NULL;
+		}
+		if (newSize < 0 || newSize > READER_MAX_SIZE) {
+			readerPointer->flags = READER_FULL_FLAG;
 			return NULL;
 		}
 		/* TO_DO: New reader allocation */
 		/* TO_DO: Defensive programming */
 		/* TO_DO: Check Relocation */
+		tempReader = readerPointer->content;
+		tempReader = realloc(tempReader, newSize);
+		if (tempReader != readerPointer->content) {
+			readerPointer->content = tempReader;
+			readerPointer->flags = READER_RELOCATION_FLAG;
+		}
+		else {
+			readerPointer->flags = READER_FULL_FLAG;
+		}
+		if (!readerPointer->content) return NULL;
 	}
+
 	/* TO_DO: Add the char */
 	readerPointer->content[readerPointer->position.wrte++] = ch;
 	/* TO_DO: Updates histogram */

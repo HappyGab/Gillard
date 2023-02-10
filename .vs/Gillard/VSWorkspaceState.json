@@ -1,0 +1,14 @@
+{
+  "OutputFoldersPerTargetSystem": {
+    "Local Machine": [
+      "Gillard\\out\\build\\x64-debug",
+      "Gillard\\out\\install\\x64-debug",
+      "Gillard\\out\\build\\x64-release",
+      "Gillard\\out\\install\\x64-release",
+      "Gillard\\out\\build\\x86-debug",
+      "Gillard\\out\\install\\x86-debug",
+      "Gillard\\out\\build\\x86-release",
+      "Gillard\\out\\install\\x86-release"
+    ]
+  }
+}
