@@ -446,9 +446,7 @@ gillard_boln readerRecover(ReaderPointer const readerPointer) {
 gillard_boln readerRetract(ReaderPointer const readerPointer) {
 	/* TO_DO: Defensive programming */
 	/* TO_DO: Retract (return 1 pos read) */
-	if(readerPointer == NULL){
-		return GILLARD_FALSE;
-	}
+	if(readerPointer == NULL) return GILLARD_FALSE;
 
 	if(readerPointer -> position.read - 1 >= 0){
 		readerPointer -> position.read --;
@@ -503,10 +501,15 @@ gillard_char readerGetChar(ReaderPointer const readerPointer) {
 	/* TO_DO: Check condition to read/wrte */
 	/* TO_DO: Set EOB flag */
 	/* TO_DO: Reset EOB flag */
-	if(readerPointer->position.read == readerPointer->position.wrte){
-		
-	}
+	if (!readerPointer) return READER_ERROR;
 
+	if(readerPointer->position.read == readerPointer->position.wrte){
+		readerPointer->flags &= READER_END_FLAG;
+	}else
+	{
+		readerPointer->flags |= READER_RELOCATION_FLAG;
+	}
+	
 	return readerPointer->content[readerPointer->position.read++];
 }
 
@@ -532,8 +535,11 @@ gillard_char* readerGetContent(ReaderPointer const readerPointer, gillard_intg p
 		return NULL;
 	if (pos < 0)
 		return NULL;
+	
+	if(pos >= 0 && pos <= readerPointer->position.wrte ) return &readerPointer->content[pos];
+
 	/* TO_DO: Return content (string) */
-	return readerPointer->content + pos;
+	return NULL;
 }
 
 
@@ -730,8 +736,15 @@ gillard_byte readerGetFlags(ReaderPointer const readerPointer) {
 */
 gillard_intg readerShowStat(ReaderPointer const readerPointer) {
 	/* TO_DO: Defensive programming */
-	/* TO_DO: Updates the histogram */
-	return 0;
+	if(!readerPointer){
+		return READER_ERROR;
+	}
+	
+	int j=0;
+	for(int i=0;i<NCHAR;i++) if (readerPointer->histogram[i] > 0) j++;
+		
+	return j;
+
 }
 
 /*
@@ -749,6 +762,8 @@ gillard_intg readerShowStat(ReaderPointer const readerPointer) {
 */
 gillard_intg readerNumErrors(ReaderPointer const readerPointer) {
 	/* TO_DO: Defensive programming */
+	if(!readerPointer) return READER_ERROR;
+
+	return readerPointer->numReaderErrors;
 	/* TO_DO: Updates the histogram */
-	return 0;
 }
