@@ -189,7 +189,11 @@ ReaderPointer readerAddChar(ReaderPointer const readerPointer, gillard_char ch) 
 	/* TO_DO: Add the char */
 	readerPointer->content[readerPointer->position.wrte++] = ch;
 	/* TO_DO: Updates histogram */
-	readerPointer -> histogram[(int)ch]++;
+	if((int)ch < 0 || (int)ch > NCHAR){
+		readerPointer->numReaderErrors++;
+	}else{
+		readerPointer -> histogram[(int)ch]++;
+	}
 	return readerPointer;
 }
 
@@ -214,7 +218,9 @@ gillard_boln readerClear(ReaderPointer const readerPointer) {
 		return GILLARD_FALSE;
 	}
 	readerPointer -> flags = READER_EMPTY_FLAG;
-
+	readerPointer->position.mark = 0;
+	readerPointer->position.read = 0;
+	readerPointer->position.wrte = 0;
 
 	return GILLARD_TRUE;
 }
@@ -344,7 +350,7 @@ gillard_intg readerPrint(ReaderPointer const readerPointer) {
 		return READER_ERROR;
 	}
 	c = readerGetChar(readerPointer);
-	if(c < 0 || c > 127){
+	if(c < 0 || c >= NCHAR){
 		return READER_ERROR;
 	}
 	/* TO_DO: Check flag if buffer EOB has achieved */
