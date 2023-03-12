@@ -139,7 +139,12 @@ ReaderPointer readerCreate(gillard_intg size, gillard_intg increment, gillard_in
 ReaderPointer readerAddChar(ReaderPointer const readerPointer, gillard_char ch) {
 	gillard_char* tempReader = NULL;
 	gillard_intg newSize = 0;
-	/* TO_DO: Defensive programming: check buffer and valid char (increment numReaderErrors) */
+	if (!readerPointer)
+		return NULL;
+	if ((int)ch < 0 || (int)ch > NCHAR) {
+		readerPointer->numReaderErrors++;
+		return NULL;
+	}	/* TO_DO: Defensive programming: check buffer and valid char (increment numReaderErrors) */
 	/* TO_DO: Reset Realocation */
 	/* TO_DO: Test the inclusion of chars */
 	if (readerPointer->position.wrte * (gillard_intg)sizeof(gillard_char) < readerPointer->size) {
@@ -147,6 +152,7 @@ ReaderPointer readerAddChar(ReaderPointer const readerPointer, gillard_char ch) 
 		readerPointer->content[readerPointer->position.wrte];
 	} else {
 		/* TO_DO: Reset Full flag */
+		readerPointer->flags = READER_EMPTY_FLAG;
 		switch (readerPointer->mode) {
 		case MODE_FIXED:
 			return NULL;
@@ -155,6 +161,7 @@ ReaderPointer readerAddChar(ReaderPointer const readerPointer, gillard_char ch) 
 			/* TO_DO: Defensive programming */
 			if(!readerPointer->size) readerPointer->size = READER_DEFAULT_SIZE; 
 			newSize = readerPointer->size + readerPointer->increment;
+			readerPointer->size = newSize;
 			
 			break;
 		case MODE_MULTI:
@@ -162,6 +169,7 @@ ReaderPointer readerAddChar(ReaderPointer const readerPointer, gillard_char ch) 
 			/* TO_DO: Defensive programming */
 			if(!readerPointer->size) readerPointer->size = READER_DEFAULT_SIZE; 
 			newSize = readerPointer->size * readerPointer->increment;
+			readerPointer->size = newSize;
 
 			break;
 		default:
@@ -171,11 +179,14 @@ ReaderPointer readerAddChar(ReaderPointer const readerPointer, gillard_char ch) 
 			readerPointer->flags = READER_FULL_FLAG;
 			return NULL;
 		}
+		readerPointer->size = newSize;
 		/* TO_DO: New reader allocation */
 		/* TO_DO: Defensive programming */
 		/* TO_DO: Check Relocation */
 		tempReader = readerPointer->content;
 		tempReader = realloc(tempReader, newSize);
+		if (!tempReader)
+			return NULL;
 		if (tempReader != readerPointer->content) {
 			readerPointer->content = tempReader;
 			readerPointer->flags = READER_RELOCATION_FLAG;
@@ -189,11 +200,14 @@ ReaderPointer readerAddChar(ReaderPointer const readerPointer, gillard_char ch) 
 	/* TO_DO: Add the char */
 	readerPointer->content[readerPointer->position.wrte++] = ch;
 	/* TO_DO: Updates histogram */
-	if((int)ch < 0 || (int)ch > NCHAR){
+	if ((int)ch<0 || (int)ch>NCHAR) {
 		readerPointer->numReaderErrors++;
-	}else{
-		readerPointer -> histogram[(int)ch]++;
 	}
+	else {
+		readerPointer->histogram[(int)ch]++;
+	}
+
+	//readerPointer -> histogram[(int)ch]++;
 	return readerPointer;
 }
 
