@@ -180,6 +180,12 @@ Token tokenizer(gillard_void) {
 		case '}':
 			currentToken.code = RBR_T;
 			return currentToken;
+		case '@':
+			currentToken.code = MNID_T;
+			return currentToken;
+		case '"':
+			currentToken.code = STR_T;
+			return currentToken;
 		/* Comments */
 		case '#':
 			newc = readerGetChar(sourceBuffer);
@@ -299,7 +305,7 @@ gillard_intg nextState(gillard_intg state, gillard_char c) {
 /* TO_DO: Use your column configuration */
 
 /* Adjust the logic to return next column in TT */
-/*	[A-z](0), [0-9](1),	_(2), &(3), "(4), SEOF(5), other(6) */
+/*	[A-z](0), [0-9](1),	@(2), "(3), -(4), .(5), _(6), SEOF(7), other(8) */
 
 gillard_intg nextClass(gillard_char c) {
 	gillard_intg val = -1;
@@ -313,9 +319,15 @@ gillard_intg nextClass(gillard_char c) {
 	case CHRCOL4:
 		val = 4;
 		break;
+	case CHRCOL5:
+		val = 5;
+		break;
+	case CHRCOL6:
+		val = 6;
+		break;
 	case CHARSEOF0:
 	case CHARSEOF255:
-		val = 5;
+		val = 7;
 		break;
 	default:
 		if (isalpha(c))
@@ -323,7 +335,7 @@ gillard_intg nextClass(gillard_char c) {
 		else if (isdigit(c))
 			val = 1;
 		else
-			val = 6;
+			val = 8;
 	}
 	return val;
 }
@@ -349,7 +361,7 @@ Token funcIL(gillard_char lexeme[]) {
 	}
 	else {
 		tlong = atol(lexeme);
-		if (tlong >= 0 && tlong <= SHRT_MAX) {
+		if (tlong >= SHRT_MIN && tlong <= SHRT_MAX) {
 			currentToken.code = INL_T;
 			currentToken.attribute.intValue = (gillard_intg)tlong;
 		}
@@ -377,10 +389,10 @@ Token funcIL(gillard_char lexeme[]) {
 
 Token funcID(gillard_char lexeme[]) {
 	Token currentToken = { 0 };
-	size_t length = strlen(lexeme);
-	gillard_char lastch = lexeme[length - 1];
+	//size_t length = strlen(lexeme);
+	gillard_char firstch = lexeme[0];
 	gillard_intg isID = GILLARD_FALSE;
-	switch (lastch) {
+	switch (firstch) {
 		case MNIDPREFIX:
 			currentToken.code = MNID_T;
 			isID = GILLARD_TRUE;
@@ -423,6 +435,7 @@ Token funcSL(gillard_char lexeme[]) {
 			errorNumber = RTE_CODE;
 			return currentToken;
 		}
+		if(lexeme[i] =='\0') break;
 	}
 	if (!readerAddChar(stringLiteralTable, CHARSEOF0)) {
 		currentToken.code = RTE_T;
@@ -548,7 +561,7 @@ gillard_void printToken(Token t) {
 		printf("EOS_T\n");
 		break;
 	default:
-		// numScannerErrors++;
+		numScannerErrors++;
 		printf("Scanner error: invalid token code: %d\n", t.code);
 	}
 }

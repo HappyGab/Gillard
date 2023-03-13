@@ -70,26 +70,25 @@
 
 /* TO_DO: Define Token codes - Create your token classes */
 enum TOKENS {
-	ERR_T=0+'0',		/*  0: Error token */
-	MNID_T='&',		/*  1: Method name identifier token (start: &) */
-	STR_T='"',		/*  2: String literal token */
-	LPR_T='(',		/*  3: Left parenthesis token */
-	RPR_T=')',		/*  4: Right parenthesis token */
-	LBR_T='{',		/*  5: Left brace token */
-	RBR_T='}',		/*  6: Right brace token */
+	ERR_T,		/*  0: Error token */
+	MNID_T,		/*  1: Method name identifier token (start: @) */
+	STR_T,		/*  2: String literal token */
+	LPR_T,		/*  3: Left parenthesis token */
+	RPR_T,		/*  4: Right parenthesis token */
+	LBR_T,		/*  5: Left brace token */
+	RBR_T,		/*  6: Right brace token */
 	KW_T,		/*  7: Keyword token */
-	EOS_T=';',		/*  8: End of statement (semicolon) */
+	EOS_T,		/*  8: End of statement (semicolon) */
 	RTE_T,		/*  9: Run-time error token */
 	INL_T,		/* 10: Run-time error token */
-	SEOF_T=128-'\0'		/* 11: Source end-of-file token */
+	SEOF_T		/* 11: Source end-of-file token */
 };
 
 /* TO_DO: Operators token attributes */
-typedef enum ArithmeticOperators { OP_ADD='+', OP_SUB='-', OP_MUL=
-'*', OP_DIV='/' } AriOperator;
-typedef enum RelationalOperators { OP_EQ='=', OP_NE='~', OP_GT='>', OP_LT='<' } RelOperator;
-typedef enum LogicalOperators { OP_AND='&&', OP_OR='|', OP_NOT='!' } LogOperator;
-typedef enum SourceEndOfFile { SEOF_0='^', SEOF_255='$' } EofOperator;
+typedef enum ArithmeticOperators { OP_ADD, OP_SUB, OP_MUL, OP_DIV } AriOperator;
+typedef enum RelationalOperators { OP_EQ, OP_NE, OP_GT, OP_LT } RelOperator;
+typedef enum LogicalOperators { OP_AND, OP_OR, OP_NOT } LogOperator;
+typedef enum SourceEndOfFile { SEOF_0, SEOF_255 } EofOperator;
 
 /* TO_DO: Data structures for declaring the token and its attributes */
 typedef union TokenAttribute {
@@ -137,9 +136,12 @@ typedef struct Token {
 
 /* TO_DO: Define lexeme FIXED classes */
 /* These constants will be used on nextClass */
-#define CHRCOL2 '_'
-#define CHRCOL3 '&'
-#define CHRCOL4 '\''
+
+#define CHRCOL2 '@'
+#define CHRCOL3 '"'
+#define CHRCOL4 '-'
+#define CHRCOL5 '.'
+#define CHRCOL6 '_'
 
 /* These constants will be used on VID / MID function */
 #define MNIDPREFIX '&'
