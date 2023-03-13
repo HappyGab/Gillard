@@ -38,7 +38,7 @@
 ************************************************************
 * File name: scanner.h
 * Compiler: MS Visual Studio 2022
-* Course: CST 8152 – Compilers, Lab Section: [011, 012, 013]
+* Course: CST 8152 ï¿½ Compilers, Lab Section: [011, 012, 013]
 * Assignment: A22, A32.
 * Date: Sep 01 2022
 * Purpose: This file contains all functionalities from Scanner.
@@ -89,13 +89,13 @@ TO_DO: Global vars definitions
 /* Global objects - variables */
 /* This buffer is used as a repository for string literals. */
 extern ReaderPointer stringLiteralTable;	/* String literal table */
-julius_intg line;								/* Current line number of the source code */
-extern julius_intg errorNumber;				/* Defined in platy_st.c - run-time error number */
+gillard_intg line;								/* Current line number of the source code */
+extern gillard_intg errorNumber;				/* Defined in platy_st.c - run-time error number */
 
-extern julius_intg stateType[];
-extern julius_char* keywordTable[];
+extern gillard_intg stateType[];
+extern gillard_char* keywordTable[];
 extern PTR_ACCFUN finalStateTable[];
-extern julius_intg transitionTable[][TABLE_COLUMNS];
+extern gillard_intg transitionTable[][TABLE_COLUMNS];
 
 /* Local(file) global objects - variables */
 static ReaderPointer lexemeBuffer;			/* Pointer to temporary lexeme buffer */
@@ -109,7 +109,7 @@ static ReaderPointer sourceBuffer;			/* Pointer to input source buffer */
  */
  /* TO_DO: Follow the standard and adjust datatypes */
 
-julius_intg startScanner(ReaderPointer psc_buf) {
+gillard_intg startScanner(ReaderPointer psc_buf) {
 	/* in case the buffer has been read previously  */
 	readerRecover(psc_buf);
 	readerClear(stringLiteralTable);
@@ -129,19 +129,19 @@ julius_intg startScanner(ReaderPointer psc_buf) {
  ***********************************************************
  */
 
-Token tokenizer(julius_void) {
+Token tokenizer(gillard_void) {
 
 	/* TO_DO: Follow the standard and adjust datatypes */
 
 	Token currentToken = { 0 }; /* token to return after pattern recognition. Set all structure members to 0 */
-	julius_char c;	/* input symbol */
-	julius_intg state = 0;		/* initial state of the FSM */
-	julius_intg lexStart;		/* start offset of a lexeme in the input char buffer (array) */
-	julius_intg lexEnd;		/* end offset of a lexeme in the input char buffer (array)*/
+	gillard_char c;	/* input symbol */
+	gillard_intg state = 0;		/* initial state of the FSM */
+	gillard_intg lexStart;		/* start offset of a lexeme in the input char buffer (array) */
+	gillard_intg lexEnd;		/* end offset of a lexeme in the input char buffer (array)*/
 
-	julius_intg lexLength;		/* token length */
-	julius_intg i;				/* counter */
-	julius_char newc;			/* new char */
+	gillard_intg lexLength;		/* token length */
+	gillard_intg i;				/* counter */
+	gillard_char newc;			/* new char */
 	
 	while (1) { /* endless loop broken by token returns it will generate a warning */
 		c = readerGetChar(sourceBuffer);
@@ -192,7 +192,7 @@ Token tokenizer(julius_void) {
 				else if (c == '\n') {
 					line++;
 				}
-			} while (c != '#' && c != CHARSEOF0 && c != CHARSEOF255);
+			} while (c != CHARSEOF0 && c != CHARSEOF255);
 			break;
 		/* Cases for END OF FILE */
 		case CHARSEOF0:
@@ -226,7 +226,7 @@ Token tokenizer(julius_void) {
 				readerRetract(sourceBuffer);
 			lexEnd = readerGetPosRead(sourceBuffer);
 			lexLength = lexEnd - lexStart;
-			lexemeBuffer = readerCreate((julius_intg)lexLength + 2, 0, MODE_FIXED);
+			lexemeBuffer = readerCreate((gillard_intg)lexLength + 2, 0, MODE_FIXED);
 			if (!lexemeBuffer) {
 				fprintf(stderr, "Scanner error: Can not create buffer\n");
 				exit(1);
@@ -271,9 +271,9 @@ Token tokenizer(julius_void) {
  */
  /* TO_DO: Just change the datatypes */
 
-julius_intg nextState(julius_intg state, julius_char c) {
-	julius_intg col;
-	julius_intg next;
+gillard_intg nextState(gillard_intg state, gillard_char c) {
+	gillard_intg col;
+	gillard_intg next;
 	col = nextClass(c);
 	next = transitionTable[state][col];
 	if (DEBUG)
@@ -301,8 +301,8 @@ julius_intg nextState(julius_intg state, julius_char c) {
 /* Adjust the logic to return next column in TT */
 /*	[A-z](0), [0-9](1),	_(2), &(3), "(4), SEOF(5), other(6) */
 
-julius_intg nextClass(julius_char c) {
-	julius_intg val = -1;
+gillard_intg nextClass(gillard_char c) {
+	gillard_intg val = -1;
 	switch (c) {
 	case CHRCOL2:
 		val = 2;
@@ -341,9 +341,9 @@ julius_intg nextClass(julius_char c) {
   */
   /* TO_DO: Adjust the function for IL */
 
-Token funcIL(julius_char lexeme[]) {
+Token funcIL(gillard_char lexeme[]) {
 	Token currentToken = { 0 };
-	julius_long tlong;
+	gillard_long tlong;
 	if (lexeme[0] != '\0' && strlen(lexeme) > NUM_LEN) {
 		currentToken = (*finalStateTable[ESNR])(lexeme);
 	}
@@ -351,7 +351,7 @@ Token funcIL(julius_char lexeme[]) {
 		tlong = atol(lexeme);
 		if (tlong >= 0 && tlong <= SHRT_MAX) {
 			currentToken.code = INL_T;
-			currentToken.attribute.intValue = (julius_intg)tlong;
+			currentToken.attribute.intValue = (gillard_intg)tlong;
 		}
 		else {
 			currentToken = (*finalStateTable[ESNR])(lexeme);
@@ -375,22 +375,22 @@ Token funcIL(julius_char lexeme[]) {
  */
  /* TO_DO: Adjust the function for ID */
 
-Token funcID(julius_char lexeme[]) {
+Token funcID(gillard_char lexeme[]) {
 	Token currentToken = { 0 };
 	size_t length = strlen(lexeme);
-	julius_char lastch = lexeme[length - 1];
-	julius_intg isID = JULIUS_FALSE;
+	gillard_char lastch = lexeme[length - 1];
+	gillard_intg isID = GILLARD_FALSE;
 	switch (lastch) {
 		case MNIDPREFIX:
 			currentToken.code = MNID_T;
-			isID = JULIUS_TRUE;
+			isID = GILLARD_TRUE;
 			break;
 		default:
 			// Test Keyword
 			currentToken = funcKEY(lexeme);
 			break;
 	}
-	if (isID == JULIUS_TRUE) {
+	if (isID == GILLARD_TRUE) {
 		strncpy(currentToken.attribute.idLexeme, lexeme, VID_LEN);
 		currentToken.attribute.idLexeme[VID_LEN] = CHARSEOF0;
 	}
@@ -410,9 +410,9 @@ Token funcID(julius_char lexeme[]) {
  */
 /* TO_DO: Adjust the function for SL */
 
-Token funcSL(julius_char lexeme[]) {
+Token funcSL(gillard_char lexeme[]) {
 	Token currentToken = { 0 };
-	julius_intg i = 0, len = (julius_intg)strlen(lexeme);
+	gillard_intg i = 0, len = (gillard_intg)strlen(lexeme);
 	currentToken.attribute.contentString = readerGetPosWrte(stringLiteralTable);
 	for (i = 1; i < len - 1; i++) {
 		if (lexeme[i] == '\n')
@@ -443,9 +443,9 @@ Token funcSL(julius_char lexeme[]) {
  */
  /* TO_DO: Adjust the function for Keywords */
 
-Token funcKEY(julius_char lexeme[]) {
+Token funcKEY(gillard_char lexeme[]) {
 	Token currentToken = { 0 };
-	julius_intg kwindex = -1, j = 0;
+	gillard_intg kwindex = -1, j = 0;
 	for (j = 0; j < KWT_SIZE; j++)
 		if (!strcmp(lexeme, &keywordTable[j][0]))
 			kwindex = j;
@@ -472,9 +472,9 @@ Token funcKEY(julius_char lexeme[]) {
  */
  /* TO_DO: Adjust the function for Errors */
 
-Token funcErr(julius_char lexeme[]) {
+Token funcErr(gillard_char lexeme[]) {
 	Token currentToken = { 0 };
-	julius_intg i = 0, len = (julius_intg)strlen(lexeme);
+	gillard_intg i = 0, len = (gillard_intg)strlen(lexeme);
 	if (len > ERR_LEN) {
 		strncpy(currentToken.attribute.errLexeme, lexeme, ERR_LEN - 3);
 		currentToken.attribute.errLexeme[ERR_LEN - 3] = CHARSEOF0;
@@ -497,10 +497,10 @@ Token funcErr(julius_char lexeme[]) {
  ***********************************************************
  */
 
-julius_void printToken(Token t) {
+gillard_void printToken(Token t) {
 
 	/* External variables */
-	extern julius_char* keywordTable[]; /* link to keyword table in */
+	extern gillard_char* keywordTable[]; /* link to keyword table in */
 	extern numScannerErrors;			/* link to number of errors (defined in Scanner.h) */
 
 	switch (t.code) {
@@ -526,8 +526,8 @@ julius_void printToken(Token t) {
 		printf("MNID_T\t\t%s\n", t.attribute.idLexeme);
 		break;
 	case STR_T:
-		printf("STR_T\t\t%d\t ", (julius_intg)t.attribute.codeType);
-		printf("%s\n", readerGetContent(stringLiteralTable, (julius_intg)t.attribute.codeType));
+		printf("STR_T\t\t%d\t ", (gillard_intg)t.attribute.codeType);
+		printf("%s\n", readerGetContent(stringLiteralTable, (gillard_intg)t.attribute.codeType));
 		break;
 	case LPR_T:
 		printf("LPR_T\n");
@@ -548,7 +548,7 @@ julius_void printToken(Token t) {
 		printf("EOS_T\n");
 		break;
 	default:
-		//numScannerErrors++;
+		// numScannerErrors++;
 		printf("Scanner error: invalid token code: %d\n", t.code);
 	}
 }

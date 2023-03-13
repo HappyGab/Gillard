@@ -38,7 +38,7 @@
 ************************************************************
 * File name: MainScanner.c
 * Compiler: MS Visual Studio 2022
-* Course: CST 8152 – Compilers, Lab Section: [011, 012, 013]
+* Course: CST 8152 ï¿½ Compilers, Lab Section: [011, 012, 013]
 * Assignment: A22, A32.
 * Date: Sep 01 2022
 * Professor: Paulo Sousa
@@ -94,10 +94,10 @@
 
  /* Global objects - variables (used in other codes as external) */
 ReaderPointer stringLiteralTable;	/* This buffer implements String Literal Table */
-julius_intg errorNumber;				/* Run-time error number = 0 by default (ANSI) */
+gillard_intg errorNumber;				/* Run-time error number = 0 by default (ANSI) */
 
 /* External objects */
-extern julius_intg line; /* Source code line numbers - defined in scanner.c */
+extern gillard_intg line; /* Source code line numbers - defined in scanner.c */
 extern Token tokenizer(sofia_nul);
 
 /*
@@ -105,10 +105,10 @@ extern Token tokenizer(sofia_nul);
  *  Function declarations
  * -------------------------------------------------------------
  */
-julius_void printScannerError(julius_char* fmt, ...);
-julius_void displayScanner(BufferReader* ptrBuffer);
-julius_long getScannerFilesize(julius_char* fname);
-julius_void printToken(Token t);
+gillard_void printScannerError(gillard_char* fmt, ...);
+gillard_void displayScanner(BufferReader* ptrBuffer);
+gillard_long getScannerFilesize(gillard_char* fname);
+gillard_void printToken(Token t);
 
 /*
 ************************************************************
@@ -120,12 +120,12 @@ julius_void printToken(Token t);
  ***********************************************************
  */
 
-julius_intg mainScanner(julius_intg argc, julius_char** argv) {
+gillard_intg mainScanner(gillard_intg argc, gillard_char** argv) {
 
 	ReaderPointer sourceBuffer;		/* Pointer to input (source) buffer */
 	FILE* fileHandler;				/* Input file handle */
 	Token currentToken;				/* Token produced by the scanner */
-	julius_intg loadSize = 0;		/* The size of the file loaded in the buffer */
+	gillard_intg loadSize = 0;		/* The size of the file loaded in the buffer */
 
 	numScannerErrors = 0;			/* Initializes the errors */
 
@@ -227,7 +227,7 @@ julius_intg mainScanner(julius_intg argc, julius_char** argv) {
 ***********************************************************
 */
 
-julius_void printScannerError(julius_char* fmt, ...) {
+gillard_void printScannerError(gillard_char* fmt, ...) {
 	va_list ap;
 	va_start(ap, fmt);
 	(void)vfprintf(stderr, fmt, ap);
@@ -245,7 +245,7 @@ julius_void printScannerError(julius_char* fmt, ...) {
  ***********************************************************
  */
 
-julius_void displayScanner(BufferReader* ptrBuffer) {
+gillard_void displayScanner(BufferReader* ptrBuffer) {
 	printf("\nPrinting buffer parameters:\n\n");
 	printf("The capacity of the buffer is:  %d\n", readerGetSize(ptrBuffer));
 	printf("The current size of the buffer is:  %d\n", readerGetPosWrte(ptrBuffer));
@@ -264,9 +264,9 @@ julius_void displayScanner(BufferReader* ptrBuffer) {
  ***********************************************************
  */
 
-julius_long getScannerFilesize(julius_char* fname) {
+gillard_long getScannerFilesize(gillard_char* fname) {
 	FILE* fileInput;
-	julius_long fileLength;
+	gillard_long fileLength;
 	fileInput = fopen(fname, "r");
 	if (fileInput == NULL) {
 		printScannerError("%s%s", "Cannot open file: ", fname);

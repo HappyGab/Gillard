@@ -106,8 +106,9 @@ Main functions signatures
 ------------------------------------------------------------
 */
 gillard_intg mainReader(gillard_intg argc, gillard_char** argv);
-/*
 gillard_intg mainScanner(gillard_intg argc, gillard_char** argv);
+
+/*
 gillard_intg mainParser(gillard_intg argc, gillard_char** argv);
 */
 gillard_void printLogo();
