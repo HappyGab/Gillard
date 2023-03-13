@@ -158,8 +158,8 @@ typedef struct Token {
 static gillard_intg transitionTable[][TABLE_COLUMNS] = {
 	/*[A-z], [0-9],  [@],  ["],  [-],  [.],  [_],  other 
 	   L(0),  D(1), M(2), Q(3), N(4), P(5),  U(6),  O(7) */
-	{    5,    1,   FS,   3,   1,   FS,   FS}, // S0: NOAS
-	{    FS,    1,   FS,   FS,   2,   FS,   FS}, // S1: ASNR[Int]
+	{    5,    1,   FS,   3,   1,   FS,   FS,   FS}, // S0: NOAS
+	{    FS,    1,   FS,   FS,   FS,   2,   FS,   FS}, // S1: ASNR[Int]
 	{    FS,    2,   FS,   FS,   FS,   FS,   FS}, // S2: ASWR[Float]
 	{    3,    3,   3,   4,   3,   3,   3}, // S3: NOAS
 	{    FSNR,    FSNR,   FSNR,   FSNR,   FSNR,   FSNR,   FSNR}, // S4: ASNR[String]
