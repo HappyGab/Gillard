@@ -155,17 +155,18 @@ typedef struct Token {
 #define TABLE_COLUMNS 8
 
 /* TO_DO: Transition table - type of states defined in separate table */
+/* TO_DO: Transition table - type of states defined in separate table */
 static gillard_intg transitionTable[][TABLE_COLUMNS] = {
 	/*[A-z], [0-9],  [@],  ["],  [-],  [.],  [_],  other 
 	   L(0),  D(1), M(2), Q(3), N(4), P(5),  U(6),  O(7) */
-	{    5,    1,   FS,   3,   1,   FS,   FS,   FS}, // S0: NOAS
-	{    FS,    1,   FS,   FS,   FS,   2,   FS,   FS}, // S1: ASNR[Int]
+	{     5,    1,   FS,   3,     1,   ESNR,   ESNR,   ESNR}, // S0: NOAS
+	{    FS,    1,   FS,   FS,   FS,    2,   FS,   FS}, // S1: ASNR[Int]
 	{    FS,    2,   FS,   FS,   FS,   FS,   FS}, // S2: ASWR[Float]
-	{    3,    3,   3,   4,   3,   3,   3}, // S3: NOAS
-	{    FSNR,    FSNR,   FSNR,   FSNR,   FSNR,   FSNR,   FSNR}, // S4: ASNR[String]
+	{     3,    3,    3,    4,    3,    3,    3}, // S3: NOAS
+	{  ESWR, ESWR, ESWR, FS,   ESWR,   ESWR,   ESWR}, // S4: ASNR[String]
 	{    5,    6,   FS,   FS,   FS,   6,   FS}, // S5: ASNR[Key]
 	{    6,    6,   7,   FS,   FS,   6,   FS}, // S6: NOAS[6]
-	{    FSNR,    FSNR,   FSNR,   FSNR,   FSNR,   FSNR,   FSNR}  // S7: ASWR[MID]
+	{    FS,    FS,   FS,   FS,   FS,   FS,   FS}  // S7: ASWR[MID]
 };
 
 /* Define accepting states types */
@@ -238,7 +239,7 @@ Language keywords
 */
 
 /* TO_DO: Define the number of Keywords from the language */
-#define KWT_SIZE 26
+#define KWT_SIZE 27
 
 /* TO_DO: Define the list of keywords */
 static gillard_char* keywordTable[KWT_SIZE] = {
@@ -268,7 +269,7 @@ static gillard_char* keywordTable[KWT_SIZE] = {
 	"while",
 	"int",
 	"float",
-	"string"
+	"String"
 };
 
 /* About indentation (useful for positional languages (ex: Python, Cobol) */
