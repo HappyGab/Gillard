@@ -155,7 +155,6 @@ typedef struct Token {
 #define TABLE_COLUMNS 8
 
 /* TO_DO: Transition table - type of states defined in separate table */
-/* TO_DO: Transition table - type of states defined in separate table */
 static gillard_intg transitionTable[][TABLE_COLUMNS] = {
 	/*[A-z], [0-9],  [@],  ["],  [-],  [.],  [_],  other 
 	   L(0),  D(1), M(2), Q(3), N(4), P(5),  U(6),  O(7) */
