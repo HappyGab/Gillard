@@ -195,10 +195,8 @@ Token tokenizer(gillard_void) {
 					readerRetract(sourceBuffer);
 					//return currentToken;
 				}
-				else if (c == '\n') {
-					line++;
-				}
-			} while (c != CHARSEOF0 && c != CHARSEOF255);
+				
+			} while (c != '\n');
 			break;
 		/* Cases for END OF FILE */
 		case CHARSEOF0:
