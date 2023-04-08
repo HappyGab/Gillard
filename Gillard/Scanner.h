@@ -264,7 +264,7 @@ static gillard_char* keywordTable[KWT_SIZE] = {
 	"struct",
 	"true",
 	"try",
-	"using",
+	"then",
 	"while",
 	"int",
 	"float",
